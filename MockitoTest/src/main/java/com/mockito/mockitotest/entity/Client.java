@@ -30,4 +30,9 @@ public class Client {
   public void setNickname(String nickname) {
     this.nickname = nickname;
   }
+  @Override
+  public String toString() {
+    return "Client [name=" + name + ", nickname=" + nickname + "]";
+  }
+  
 }
