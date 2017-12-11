@@ -1,0 +1,5 @@
+kubectl.exe create -f kubetest-deployment.yaml
+kubectl.exe create -f mongo-deployment.yaml
+
+kubectl.exe delete service mongo kubetest
+kubectl.exe delete deployment mongo kubetest
