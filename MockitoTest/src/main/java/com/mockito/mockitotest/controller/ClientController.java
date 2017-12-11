@@ -19,7 +19,7 @@ public class ClientController {
     try {
       Client client = new Client(name, nickname);
       clientService.addClient(client);
-      return "Client " + client.toString() + " created";
+      return client.toString() + " created";
     } catch (Exception e) {
       return e.getMessage();
     }

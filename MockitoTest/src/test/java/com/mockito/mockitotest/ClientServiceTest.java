@@ -4,21 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mockito.mockitotest.entity.Client;
 import com.mockito.mockitotest.repository.ClientRepository;
 import com.mockito.mockitotest.service.ClientService;
 import com.mockito.mockitotest.service.ClientServiceImpl;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class ClientServiceTest {
   
   @InjectMocks
@@ -31,11 +26,23 @@ public class ClientServiceTest {
   @Before
   public void setupMock() {
     MockitoAnnotations.initMocks(this);
-    
-    testClient1 = new Client("TestName", "TestNickname");
+    testClient1 = new Client("Testname", "TestNickname");
     Mockito.when(repository.findByName(testClient1.getName())).thenReturn(testClient1);
   }
 
+  @Test
+  public void getClientCorrectly() throws Exception {
+    Client client = clientService.getClient(testClient1.getName());
+    assertThat(client).isNotEqualTo(null);
+    assertThat(client.getName()).isEqualTo(testClient1.getName());
+  }
+  
+  @Test
+  public void getClientCorrectlyNullResponse() throws Exception {
+    Client client = clientService.getClient("NonExistingName");
+    assertThat(client).isEqualTo(null);
+  }
+  
   @Test(expected=Exception.class)
   public void getClientWithEmtpyString() throws Exception {
     clientService.getClient("");
@@ -46,17 +53,8 @@ public class ClientServiceTest {
     clientService.getClient(null);
   }
   
-  @Test
-  public void getClientWithCorrectly() throws Exception {
-    Client client = clientService.getClient(testClient1.getName());
-    assertThat(client).isNotEqualTo(null);
-    assertThat(client.getName()).isEqualTo(testClient1.getName());
+  @Test(expected=Exception.class)
+  public void addClientAlreadyExistingClient() throws Exception {
+    clientService.addClient(testClient1);
   }
-  
-  @Test
-  public void getClientWithCorrectlyNullResponse() throws Exception {
-    Client client = clientService.getClient("NonExistingName");
-    assertThat(client).isEqualTo(null);
-  }
-
 }
