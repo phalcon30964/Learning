@@ -1,5 +1,0 @@
-kubectl create -f mongo-deployment.yml
-kubectl create -f kubetest-deployment.yml
-
-kubectl delete service kubetest-mongo-service kubetest
-kubectl delete deployment kubetest-mongo-deployment kubetest
